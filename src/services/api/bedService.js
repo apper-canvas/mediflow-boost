@@ -1,4 +1,5 @@
 import { getApperClient } from "@/services/apperClient";
+
 class BedService {
   async getAll() {
     try {
