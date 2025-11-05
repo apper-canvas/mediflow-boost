@@ -157,9 +157,8 @@ class DepartmentService {
       
       return true;
     } catch (error) {
-      console.error("Error deleting department:", error?.response?.data?.message || error);
+console.error("Error deleting department:", error?.response?.data?.message || error);
       return false;
-return false;
     }
   }
 }
