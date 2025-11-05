@@ -1,6 +1,4 @@
 import { getApperClient } from "@/services/apperClient";
-import React from "react";
-
 class BedService {
   async getAll() {
     try {
@@ -257,4 +255,6 @@ class BedService {
       return [];
     }
 }
-  }
+
+const bedService = new BedService();
+export default bedService;
