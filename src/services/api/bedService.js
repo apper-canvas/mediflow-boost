@@ -223,7 +223,7 @@ class BedService {
       console.error("Error fetching available beds:", error?.response?.data?.message || error);
       return [];
     }
-  }
+}
 
   async getOccupied() {
     try {
@@ -255,6 +255,7 @@ class BedService {
       console.error("Error fetching occupied beds:", error?.response?.data?.message || error);
       return [];
     }
+  }
 }
 
 const bedService = new BedService();
