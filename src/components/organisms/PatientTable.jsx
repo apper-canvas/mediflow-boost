@@ -12,7 +12,7 @@ const PatientTable = ({ patients, onViewPatient, onEditPatient }) => {
   const [sortDirection, setSortDirection] = useState("asc");
 
   const sortedPatients = [...patients].sort((a, b) => {
-    const aValue = a[sortField];
+const aValue = a[sortField];
     const bValue = b[sortField];
     
     if (sortDirection === "asc") {
@@ -68,7 +68,7 @@ const PatientTable = ({ patients, onViewPatient, onEditPatient }) => {
           <tbody className="bg-white divide-y divide-gray-200">
             {sortedPatients.map((patient, index) => (
               <motion.tr
-                key={patient.Id}
+key={patient.Id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
@@ -78,12 +78,12 @@ const PatientTable = ({ patients, onViewPatient, onEditPatient }) => {
                   <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-r from-primary-100 to-cyan-100 flex items-center justify-center">
                       <span className="text-primary-700 font-semibold text-sm">
-                        {patient.firstName[0]}{patient.lastName[0]}
+                        {patient.first_name_c?.[0]}{patient.last_name_c?.[0]}
                       </span>
                     </div>
                     <div>
                       <div className="text-sm font-medium text-gray-900">
-                        {patient.firstName} {patient.lastName}
+                        {patient.first_name_c} {patient.last_name_c}
                       </div>
                       <div className="text-sm text-gray-500">ID: P{String(patient.Id).padStart(3, "0")}</div>
                     </div>

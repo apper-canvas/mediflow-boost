@@ -33,21 +33,21 @@ const Departments = () => {
     loadDepartments();
   }, []);
 
-  const handleViewDepartment = (department) => {
-    toast.info(`Viewing details for ${department.name} Department`);
+const handleViewDepartment = (department) => {
+    toast.info(`Viewing details for ${department.name_c || department.Name} Department`);
   };
 
   const handleNewDepartment = () => {
     toast.info("Opening new department creation form");
   };
 
-  const getTotalStats = () => {
+const getTotalStats = () => {
     return {
-      totalBeds: departments.reduce((sum, dept) => sum + dept.totalBeds, 0),
-      occupiedBeds: departments.reduce((sum, dept) => sum + dept.occupiedBeds, 0),
-      totalStaff: departments.reduce((sum, dept) => sum + dept.staffCount, 0),
+      totalBeds: departments.reduce((sum, dept) => sum + (dept.total_beds_c || 0), 0),
+      occupiedBeds: departments.reduce((sum, dept) => sum + (dept.occupied_beds_c || 0), 0),
+      totalStaff: departments.reduce((sum, dept) => sum + (dept.staff_count_c || 0), 0),
       avgOccupancy: departments.length > 0 ? 
-        Math.round(departments.reduce((sum, dept) => sum + (dept.occupiedBeds / dept.totalBeds), 0) / departments.length * 100) : 0
+        Math.round(departments.reduce((sum, dept) => sum + ((dept.occupied_beds_c || 0) / (dept.total_beds_c || 1)), 0) / departments.length * 100) : 0
     };
   };
 
@@ -134,7 +134,7 @@ const Departments = () => {
               <p className="text-sm text-gray-500">of {stats.totalBeds} total</p>
             </div>
             <div className={`w-12 h-12 rounded-lg bg-gradient-to-r flex items-center justify-center ${
-              stats.occupiedBeds / stats.totalBeds > 0.8 
+(stats.totalBeds > 0 && stats.occupiedBeds / stats.totalBeds > 0.8)
                 ? "from-red-500 to-red-400" 
                 : "from-success to-emerald-400"
             }`}>

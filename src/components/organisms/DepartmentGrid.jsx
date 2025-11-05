@@ -41,8 +41,7 @@ const DepartmentGrid = ({ departments, onViewDepartment }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {departments.map((department, index) => {
-        const occupancyRate = Math.round((department.occupiedBeds / department.totalBeds) * 100);
-        
+const occupancyRate = Math.round(((department.occupied_beds_c || 0) / (department.total_beds_c || 1)) * 100);
         return (
           <motion.div
             key={department.Id}
@@ -63,13 +62,13 @@ const DepartmentGrid = ({ departments, onViewDepartment }) => {
 
               {/* Department Name */}
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                {department.name}
+{department.name_c || department.Name}
               </h3>
 
               {/* Head Doctor */}
               <div className="flex items-center space-x-2 mb-4 text-sm text-gray-600">
-                <ApperIcon name="UserCheck" className="w-4 h-4" />
-                <span>{department.headDoctor}</span>
+<ApperIcon name="UserCheck" className="w-4 h-4" />
+                <span>{department.head_doctor_c}</span>
               </div>
 
               {/* Stats */}
@@ -81,8 +80,8 @@ const DepartmentGrid = ({ departments, onViewDepartment }) => {
                     <span className="text-sm text-gray-600">Bed Occupancy</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <span className="text-sm font-medium text-gray-900">
-                      {department.occupiedBeds}/{department.totalBeds}
+<span className="text-sm font-medium text-gray-900">
+                      {department.occupied_beds_c || 0}/{department.total_beds_c || 0}
                     </span>
                     <span className={`text-sm font-semibold ${getOccupancyColor(occupancyRate)}`}>
                       {occupancyRate}%
@@ -108,8 +107,8 @@ const DepartmentGrid = ({ departments, onViewDepartment }) => {
                     <ApperIcon name="Users" className="w-4 h-4 text-gray-500" />
                     <span className="text-sm text-gray-600">Staff</span>
                   </div>
-                  <span className="text-sm font-medium text-gray-900">
-                    {department.staffCount} members
+<span className="text-sm font-medium text-gray-900">
+                    {department.staff_count_c || 0} members
                   </span>
                 </div>
               </div>

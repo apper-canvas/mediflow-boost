@@ -1,6 +1,9 @@
-import { createBrowserRouter } from 'react-router-dom'
-import { lazy, Suspense } from 'react'
-import Layout from '@/components/organisms/Layout'
+import { createBrowserRouter } from "react-router-dom";
+import React, { Suspense, lazy } from "react";
+import { getRouteConfig } from "@/router/route.utils";
+import Root from "@/layouts/Root";
+import Layout from "@/components/organisms/Layout";
+import Loading from "@/components/ui/Loading";
 
 // Lazy load all page components
 const Dashboard = lazy(() => import('@/components/pages/Dashboard'))
@@ -10,7 +13,6 @@ const Admissions = lazy(() => import('@/components/pages/Admissions'))
 const Staff = lazy(() => import('@/components/pages/Staff'))
 const Departments = lazy(() => import('@/components/pages/Departments'))
 const NotFound = lazy(() => import('@/components/pages/NotFound'))
-
 // Loading component with healthcare theme
 const LoadingFallback = () => (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -24,82 +26,121 @@ const LoadingFallback = () => (
   </div>
 )
 
+// Authentication pages
+const Login = lazy(() => import('@/pages/Login'))
+const Signup = lazy(() => import('@/pages/Signup'))
+const Callback = lazy(() => import('@/pages/Callback'))
+const ErrorPage = lazy(() => import('@/pages/ErrorPage'))
+const ResetPassword = lazy(() => import('@/pages/ResetPassword'))
+const PromptPassword = lazy(() => import('@/pages/PromptPassword'))
+
+// createRoute helper function
+const createRoute = ({
+  path,
+  index,
+  element,
+  access,
+  children,
+  ...meta
+}) => {
+  // Get config for this route
+  let configPath;
+  if (index) {
+    configPath = "/";
+  } else {
+    configPath = path.startsWith('/') ? path : `/${path}`;
+  }
+
+  const config = getRouteConfig(configPath);
+  const finalAccess = access || config?.allow;
+
+  const route = {
+    ...(index ? { index: true } : { path }),
+    element: element ? <Suspense fallback={<LoadingFallback />}>{element}</Suspense> : element,
+    handle: {
+      access: finalAccess,
+      ...meta,
+    },
+  };
+
+  if (children && children.length > 0) {
+    route.children = children;
+  }
+
+  return route;
+};
+
 // Main routes configuration
 const mainRoutes = [
-  {
-    path: "",
+  createRoute({
     index: true,
-    element: (
-      <Suspense fallback={<LoadingFallback />}>
-        <Dashboard />
-      </Suspense>
-    )
-  },
-  {
+    element: <Dashboard />
+  }),
+  createRoute({
     path: "patients",
-    element: (
-      <Suspense fallback={<LoadingFallback />}>
-        <Patients />
-      </Suspense>
-    )
-  },
-  {
+    element: <Patients />
+  }),
+  createRoute({
     path: "appointments",
-    element: (
-      <Suspense fallback={<LoadingFallback />}>
-        <Appointments />
-      </Suspense>
-    )
-  },
-  {
+    element: <Appointments />
+  }),
+  createRoute({
     path: "admissions",
-    element: (
-      <Suspense fallback={<LoadingFallback />}>
-        <Admissions />
-      </Suspense>
-    )
-  },
-  {
+    element: <Admissions />
+  }),
+  createRoute({
     path: "staff",
-    element: (
-      <Suspense fallback={<LoadingFallback />}>
-        <Staff />
-      </Suspense>
-    )
-  },
-  {
+    element: <Staff />
+  }),
+  createRoute({
     path: "departments",
-    element: (
-      <Suspense fallback={<LoadingFallback />}>
-        <Departments />
-      </Suspense>
-    )
-  },
-{
+    element: <Departments />
+  }),
+  createRoute({
     path: "patients/new",
-    element: (
-      <Suspense fallback={<LoadingFallback />}>
-        <Patients />
-      </Suspense>
-    )
-  },
-  {
+    element: <Patients />
+  }),
+  createRoute({
     path: "*",
-    element: (
-      <Suspense fallback={<LoadingFallback />}>
-        <NotFound />
-      </Suspense>
-    )
-  }
+    element: <NotFound />
+  })
 ]
 
 // Router configuration
-const routes = [
+export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
-    children: mainRoutes
+    element: <Root />,
+    children: [
+      {
+        path: "/",
+        element: <Layout />,
+        children: mainRoutes
+      },
+      createRoute({
+        path: "login",
+        element: <Login />
+      }),
+      createRoute({
+        path: "signup", 
+        element: <Signup />
+      }),
+      createRoute({
+        path: "callback",
+        element: <Callback />
+      }),
+      createRoute({
+        path: "error",
+        element: <ErrorPage />
+      }),
+      createRoute({
+        path: "reset-password/:appId/:fields",
+        element: <ResetPassword />
+      }),
+      createRoute({
+        path: "prompt-password/:appId/:emailAddress/:provider",
+        element: <PromptPassword />
+      })
+    ]
   }
-]
-
-export const router = createBrowserRouter(routes)
+])

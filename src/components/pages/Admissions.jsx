@@ -25,9 +25,9 @@ const Admissions = () => {
   // Admission form state
   const [showAdmissionForm, setShowAdmissionForm] = useState(false);
   const [admissionForm, setAdmissionForm] = useState({
-    patientId: "",
-    department: "",
-    bedId: "",
+patient_id_c: "",
+    department_c: "",
+    bed_id_c: "",
     admissionDate: format(new Date(), "yyyy-MM-dd"),
     assignedDoctor: "",
     notes: ""
@@ -66,9 +66,9 @@ const Admissions = () => {
       toast.success("Patient admitted successfully!");
       setShowAdmissionForm(false);
       setAdmissionForm({
-        patientId: "",
-        department: "",
-        bedId: "",
+patient_id_c: "",
+        department_c: "",
+        bed_id_c: "",
         admissionDate: format(new Date(), "yyyy-MM-dd"),
         assignedDoctor: "",
         notes: ""
@@ -80,12 +80,12 @@ const Admissions = () => {
     }
   };
 
-  const handleDischarge = (patient) => {
-    toast.info(`Initiating discharge process for ${patient.firstName} ${patient.lastName}`);
+const handleDischarge = (patient) => {
+    toast.info(`Initiating discharge process for ${patient.first_name_c} ${patient.last_name_c}`);
   };
 
-  const handleTransfer = (patient) => {
-    toast.info(`Opening transfer form for ${patient.firstName} ${patient.lastName}`);
+const handleTransfer = (patient) => {
+    toast.info(`Opening transfer form for ${patient.first_name_c} ${patient.last_name_c}`);
   };
 
   if (loading) return <Loading type="table" />;
@@ -185,8 +185,8 @@ const Admissions = () => {
                   required
                 >
                   <option value="">Select Department</option>
-                  {departments.map(dept => (
-                    <option key={dept.Id} value={dept.name}>{dept.name}</option>
+{departments.map(dept => (
+                    <option key={dept.Id} value={dept.name_c || dept.Name}>{dept.name_c || dept.Name}</option>
                   ))}
                 </Select>
 
@@ -198,8 +198,8 @@ const Admissions = () => {
                 >
                   <option value="">Select Bed</option>
                   {availableBeds.map(bed => (
-                    <option key={bed.Id} value={bed.Id}>
-                      {bed.number} - {bed.ward} ({bed.type})
+<option key={bed.Id} value={bed.Id}>
+                      {bed.number_c} - {bed.ward_c} ({bed.type_c})
                     </option>
                   ))}
                 </Select>
@@ -292,7 +292,7 @@ const Admissions = () => {
               <tbody className="bg-white divide-y divide-gray-200">
                 {admittedPatients.map((patient, index) => (
                   <motion.tr
-                    key={patient.Id}
+key={patient.Id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
@@ -302,7 +302,7 @@ const Admissions = () => {
                       <div className="flex items-center space-x-3">
                         <div className="w-10 h-10 rounded-full bg-gradient-to-r from-primary-100 to-cyan-100 flex items-center justify-center">
                           <span className="text-primary-700 font-semibold text-sm">
-                            {patient.firstName[0]}{patient.lastName[0]}
+                            {patient.first_name_c?.[0]}{patient.last_name_c?.[0]}
                           </span>
                         </div>
                         <div>

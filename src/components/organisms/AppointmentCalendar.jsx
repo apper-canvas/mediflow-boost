@@ -21,14 +21,14 @@ const AppointmentCalendar = ({ appointments, onAppointmentClick, onNewAppointmen
   ];
 
   const getAppointmentsForDay = (date) => {
-    return appointments.filter(apt => 
-      isSameDay(new Date(apt.date), date)
+return appointments.filter(apt => 
+      isSameDay(new Date(apt.date_c), date)
     );
   };
 
-  const getAppointmentForTimeSlot = (date, time) => {
+const getAppointmentForTimeSlot = (date, time) => {
     return appointments.find(apt => 
-      isSameDay(new Date(apt.date), date) && apt.time === time
+      isSameDay(new Date(apt.date_c), date) && apt.time_c === time
     );
   };
 
@@ -45,10 +45,10 @@ const AppointmentCalendar = ({ appointments, onAppointmentClick, onNewAppointmen
       onClick={() => onAppointmentClick(appointment)}
     >
       <div className="text-xs font-medium text-primary-900">
-        Patient ID: {appointment.patientId}
+Patient ID: {appointment.patient_id_c}
       </div>
       <div className="text-xs text-primary-700 capitalize">
-        {appointment.type}
+{appointment.type_c}
       </div>
       <StatusBadge status={appointment.status} type="appointment" />
     </motion.div>

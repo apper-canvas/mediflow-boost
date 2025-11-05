@@ -70,7 +70,7 @@ const Header = () => {
         </div>
 
         {/* Right section - User Profile */}
-        <div className="flex items-center space-x-4">
+<div className="flex items-center space-x-4">
           <button className="p-2 text-gray-400 hover:text-gray-600 relative">
             <ApperIcon name="Bell" className="w-5 h-5" />
             <span className="absolute -top-1 -right-1 w-4 h-4 bg-error text-white text-xs rounded-full flex items-center justify-center">
@@ -86,6 +86,12 @@ const Header = () => {
               <p className="text-sm font-medium text-gray-900">Dr. Admin</p>
               <p className="text-xs text-gray-500">Administrator</p>
             </div>
+            <button 
+              className="ml-3 px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+              onClick={() => console.log('Logout functionality')}
+            >
+              Logout
+            </button>
           </div>
         </div>
       </div>
