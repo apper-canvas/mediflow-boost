@@ -1,10 +1,11 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
+import departmentService from "@/services/api/departmentService";
+import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
 import Input from "@/components/atoms/Input";
 import Card from "@/components/atoms/Card";
-import ApperIcon from "@/components/ApperIcon";
-import departmentService from "@/services/api/departmentService";
+import Staff from "@/components/pages/Staff";
 
 const DepartmentForm = ({ onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
@@ -126,10 +127,10 @@ const DepartmentForm = ({ onClose, onSuccess }) => {
             </Button>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+<form onSubmit={handleSubmit} className="space-y-4">
             <div>
-<label className="block text-sm font-medium text-gray-700 mb-1">
-                Name of Dept *
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Department Name *
               </label>
               <Input
                 name="name_c"

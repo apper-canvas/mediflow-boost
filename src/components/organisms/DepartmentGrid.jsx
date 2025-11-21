@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
+import React from "react";
 import ApperIcon from "@/components/ApperIcon";
-import Card from "@/components/atoms/Card";
 import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
 
 const DepartmentGrid = ({ departments, onViewDepartment }) => {
   const getDepartmentIcon = (name) => {
@@ -60,14 +61,19 @@ const occupancyRate = Math.round(((department.occupied_beds_c || 0) / (departmen
                 </span>
               </div>
 
-              {/* Department Name */}
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-{department.name_c || department.Name}
-              </h3>
+{/* Department Name */}
+              <div className="flex items-center space-x-2 mb-2">
+                <h3 className="text-lg font-semibold text-gray-900">Department {department.Id}</h3>
+                {department.Tags && (
+                  <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                    {department.Tags}
+                  </span>
+                )}
+              </div>
 
               {/* Head Doctor */}
               <div className="flex items-center space-x-2 mb-4 text-sm text-gray-600">
-<ApperIcon name="UserCheck" className="w-4 h-4" />
+                <ApperIcon name="UserCheck" className="w-4 h-4" />
                 <span>{department.head_doctor_c}</span>
               </div>
 
