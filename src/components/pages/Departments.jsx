@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
 import DepartmentGrid from "@/components/organisms/DepartmentGrid";
+import DepartmentForm from "@/components/molecules/DepartmentForm";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
@@ -14,7 +15,7 @@ const Departments = () => {
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const loadDepartments = async () => {
     try {
       setLoading(true);
@@ -37,10 +38,14 @@ const handleViewDepartment = (department) => {
     toast.info(`Viewing details for ${department.name_c || department.Name} Department`);
   };
 
-  const handleNewDepartment = () => {
-    toast.info("Opening new department creation form");
+const handleNewDepartment = () => {
+    setShowCreateModal(true);
   };
 
+  const handleCreateSuccess = async () => {
+    setShowCreateModal(false);
+    await loadDepartments();
+  };
 const getTotalStats = () => {
     return {
       totalBeds: departments.reduce((sum, dept) => sum + (dept.total_beds_c || 0), 0),
@@ -197,7 +202,15 @@ const getTotalStats = () => {
       <DepartmentGrid
         departments={departments}
         onViewDepartment={handleViewDepartment}
-      />
+/>
+
+      {/* Create Department Modal */}
+      {showCreateModal && (
+        <DepartmentForm
+          onClose={() => setShowCreateModal(false)}
+          onSuccess={handleCreateSuccess}
+        />
+      )}
     </div>
   );
 };
