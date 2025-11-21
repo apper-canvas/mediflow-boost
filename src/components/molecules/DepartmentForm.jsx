@@ -128,8 +128,8 @@ const DepartmentForm = ({ onClose, onSuccess }) => {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Department Name *
+<label className="block text-sm font-medium text-gray-700 mb-1">
+                Name of Dept *
               </label>
               <Input
                 name="name_c"
